@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <title>Product Page - Admin HTML Template</title>
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:400,700"
+            rel="stylesheet"
+    />
+    <!-- https://fonts.google.com/specimen/Roboto -->
+    <link href="css/fontawesome.min.css" rel="stylesheet"/>
+    <!-- https://fontawesome.com/ -->
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- https://getbootstrap.com/ -->
+    <link href="css/templatemo-style.css" rel="stylesheet">
+    <!--
+	Product Admin CSS Template
+	https://templatemo.com/tm-524-product-admin
+	-->
+</head>
+
+<body id="reportsPage">
+<nav class="navbar navbar-expand-xl">
+    <div class="container h-100">
+        <a class="navbar-brand" th:href="@{/}">
+            <h1 class="tm-site-title mb-0">SkinShine</h1>
+        </a>
+        <h3>Cosmetics</h3>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto h-100">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="nav-link dropdown-toggle"
+                            data-toggle="dropdown"
+                            href="#"
+                            role="button">
+                        <i class="far fa-file-alt"></i>
+                        <span> Reports <i class="fas fa-angle-down"></i> </span>
+                    </a>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Daily Report</a>
+                        <a class="dropdown-item" href="#">Weekly Report</a>
+                        <a class="dropdown-item" href="#">Yearly Report</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/products}">
+                        <i class="fas fa-shopping-cart"></i> Products
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/accounts}">
+                        <i class="far fa-user"></i> Accounts
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            class="nav-link dropdown-toggle"
+                            data-toggle="dropdown"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button">
+                        <i class="fas fa-cog"></i>
+                        <span> Settings <i class="fas fa-angle-down"></i> </span>
+                    </a>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="#">Billing</a>
+                        <a class="dropdown-item" href="#">Customize</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link d-block" th:href="@{/login}">
+                        Admin, <b>Logout</b>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container tm-mt-medium tm-mb-medium" >
+    <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-products">
+                <h2 class="tm-block-title">Product List</h2>
+                <div>
+                    <label style="color: white; font-size: 17px">Search</label>
+                    <input id="productNameInput" onkeyup="SearchProductByProductName()" placeholder="Search product.." title="Type product name here to search" type="text"/>
+                </div>
+                <div class="tm-product-table-container">
+                    <table class="table table-hover tm-table-small tm-product-table" id="productsTable">
+                        <thead>
+                        <tr>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">PRODUCT CODE</th>
+                            <th scope="col">PRODUCT NAME</th>
+                            <th scope="col">PRODUCT DESCRIPTION</th>
+                            <th scope="col">&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody class="productTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <!-- table container -->
+                <a class="btn btn-primary btn-block text-uppercase mb-3" onclick="openProductAddTab()">Add new
+                    product</a>
+                <button class="btn btn-primary btn-block text-uppercase">
+                    Delete selected products
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+                <h2 class="tm-block-title">ProductLines</h2>
+                <div class="tm-product-table-container">
+                    <table class="table tm-table-small tm-product-table" id="productLineTable">
+                        <tbody class="productLineTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <!-- table container -->
+                <button class="btn btn-primary btn-block text-uppercase mb-3" id="addProductLineButton">
+                    Add new productline
+                </button>
+            </div>
+            <textarea id="productLineTextArea"></textarea>
+            <button id="addbtn" onclick="addProductLine()">Add</button>
+        </div>
+    </div>
+</div>
+<footer class="tm-footer row tm-mt-small">
+    <div class="col-12 font-weight-light">
+        <p class="text-center text-white mb-0 px-4 medium">
+            Copyright &copy; <b>2020</b> All rights reserved by
+            <a class="tm-footer-link" href="https://www.maccosmetics.com/" rel="nofollow nooper">SkinShine Cosmetic</a>
+        </p>
+    </div>
+</footer>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<!-- https://jquery.com/download/ -->
+<script src="js/bootstrap.min.js"></script>
+<!-- https://getbootstrap.com/ -->
+<script src="js/products.js"></script>
+<script>
+    $(document).ready(function () {
+        fetchProductsAndDisplay();
+        fetchProductLinesAndDisplay();
+    });
+</script>
+
+</body>
+</html>
